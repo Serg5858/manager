@@ -43,4 +43,25 @@ public class ProductRepositoryTest {
         Assertions.assertArrayEquals(expected, actual);
     }
 
+    @Test
+    public void shouldDeleteReallyId() {
+        repo.add(book2);
+        repo.add(book1);
+        repo.add(smartphone1);
+        repo.removeById(3);
+        Product[] expected = {book1, smartphone1};
+        Product[] actual = repo.getProducts();
+        Assertions.assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldNotDeleteNoReallyId() {
+        ProductRepository repo = new ProductRepository();
+        repo.save(book2);
+        repo.save(smartphone1);
+        repo.save(book3);
+        Assertions.assertThrows(NotFoundException.class, () -> {
+            repo.removeById(30);
+        });
+    }
 }
